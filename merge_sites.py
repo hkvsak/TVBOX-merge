@@ -13,7 +13,7 @@ import base64
 SOURCES_JSON_PATH = os.environ.get("SOURCES_JSON_PATH", "sources.json")
 TARGET_JSON_PATH = os.environ.get("TARGET_JSON_PATH", "青龙.json")
 
-GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN", "")
+GITHUB_TOKEN = os.environ.get("GITB_TOKEN", "")
 GITHUB_REPO = os.environ.get("GITHUB_REPO","leexuben/TVBOX-merge")
 GITHUB_BRANCH = os.environ.get("GITHUB_BRANCH", "main")
 
