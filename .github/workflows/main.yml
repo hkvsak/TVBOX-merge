@@ -1,4 +1,4 @@
-name: 自动更新 TVBox 配置
+name: updata
 
 on:
   schedule:
@@ -18,7 +18,7 @@ jobs:
       - name: 检出代码
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.MY_GITHUB_TOKEN }}
+          token: ${{ secrets.GITB_TOKEN}}
           fetch-depth: 0
       
       - name: 设置 Python 环境
