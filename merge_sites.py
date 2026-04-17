@@ -5,7 +5,6 @@ import sys
 import json
 import time
 import requests
-import base64
 
 # ======================
 # 配置（全部走环境变量，带默认值）
@@ -58,61 +57,6 @@ def fix_site_paths(site, base):
     return site
 
 # ======================
-# GitHub 推送
-# ======================
-def push_to_github(path, content, repo, token, branch):
-    print(f"[推送] 准备推送到 GitHub: {repo}/{path} (分支: {branch})")
-    
-    # 检查 token 是否有效
-    if not token or len(token) < 10:
-        print("[错误] Token 无效或太短")
-        return False
-    
-    api = f"https://api.github.com/repos/{repo}/contents/{path}"
-    headers = {
-        "Authorization": f"token {token}",
-        "Accept": "application/vnd.github.v3+json"
-    }
-
-    # 尝试获取文件现有 SHA
-    sha = None
-    try:
-        r = requests.get(api, headers=headers, params={"ref": branch}, timeout=10)
-        if r.status_code == 200:
-            sha = r.json().get("sha")
-            print(f"[推送] 文件已存在，SHA: {sha[:8]}...")
-        elif r.status_code == 404:
-            print(f"[推送] 文件不存在，将创建新文件")
-        else:
-            print(f"[推送] 检查文件失败: {r.status_code}")
-    except Exception as e:
-        print(f"[推送] 检查文件异常: {e}")
-
-    # 准备推送数据
-    encoded_content = base64.b64encode(content.encode("utf-8")).decode("ascii")
-    data = {
-        "message": f"🔄 自动更新站点 ({time.strftime('%Y-%m-%d %H:%M:%S')})",
-        "content": encoded_content,
-        "branch": branch
-    }
-    if sha:
-        data["sha"] = sha
-
-    # 推送文件
-    try:
-        r = requests.put(api, headers=headers, json=data, timeout=15)
-        if r.status_code in (200, 201):
-            print(f"[成功] 文件已推送到 GitHub")
-            return True
-        else:
-            print(f"[失败] 推送失败: {r.status_code}")
-            print(f"响应: {r.text[:200]}")
-            return False
-    except Exception as e:
-        print(f"[异常] 推送过程出错: {e}")
-        return False
-
-# ======================
 # 主流程
 # ======================
 def main():
@@ -136,20 +80,25 @@ def main():
         sys.exit(1)
     
     # 3. 读取现有目标文件（如果存在）
-    sites = []
-    keys = set()
-    
     if os.path.exists(TARGET_JSON_PATH):
         try:
             with open(TARGET_JSON_PATH, "r", encoding="utf-8") as f:
-                old = json.load(f)
-                sites = old.get("sites", [])
-                keys = {s.get("key") for s in sites if s.get("key")}
+                target_data = json.load(f)
+            sites = target_data.get("sites", [])
+            # 获取现有的非 sites 字段
+            existing_fields = {k: v for k, v in target_data.items() if k != "sites"}
             print(f"[读取] 现有文件包含 {len(sites)} 个站点")
         except Exception as e:
             print(f"[警告] 读取目标文件失败，将新建: {e}")
+            sites = []
+            existing_fields = {}
     else:
         print(f"[提示] 目标文件不存在，将创建新文件")
+        sites = []
+        existing_fields = {}
+    
+    # 获取现有站点的 key 集合
+    keys = {s.get("key") for s in sites if s.get("key")}
     
     # 4. 合并站点
     added_count = 0
@@ -168,11 +117,10 @@ def main():
                 keys.add(key)
                 added_count += 1
     
-    # 5. 生成结果
+    # 5. 生成结果，保留现有的非 sites 字段
     result = {
         "sites": sites,
-        "updateTime": time.strftime("%Y-%m-%d %H:%M:%S"),
-        "total": len(sites)
+        **existing_fields,  # 保留现有的非 sites 字段
     }
     
     # 6. 写入本地文件
@@ -180,21 +128,6 @@ def main():
         json.dump(result, f, ensure_ascii=False, indent=2)
     
     print(f"[完成] 共 {len(sites)} 个站点，新增 {added_count} 个，已写入 {TARGET_JSON_PATH}")
-    
-    # 7. 推送到 GitHub
-    if MY_GITHUB_TOKEN and GITHUB_REPO:
-        print(f"[推送] 开始推送到 GitHub 仓库: {GITHUB_REPO}")
-        with open(TARGET_JSON_PATH, "r", encoding="utf-8") as f:
-            content = f.read()
-        ok = push_to_github(TARGET_JSON_PATH, content, GITHUB_REPO, MY_GITHUB_TOKEN, GITHUB_BRANCH)
-        if ok:
-            print("[完成] ✅ 推送成功！")
-        else:
-            print("[失败] ❌ 推送失败")
-    else:
-        print(f"[提示] 未配置 GitHub Token 或仓库信息，仅本地生成")
-        print(f"       MY_GITHUB_TOKEN: {'已设置' if MY_GITHUB_TOKEN else '未设置'}")
-        print(f"       GITHUB_REPO: {GITHUB_REPO}")
 
 if __name__ == "__main__":
     main()
