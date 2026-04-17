@@ -16,12 +16,12 @@ TARGET_JSON_PATH = os.environ.get("TARGET_JSON_PATH", "青龙.json")
 # 注意：GitHub Actions 会自动提供 GITHUB_TOKEN 环境变量
 # 但在 Secrets 中我们不能用 GITHUB_TOKEN 这个名称
 # 所以我们用自定义名称，然后通过工作流传递
-MY_GITHUB_TOKEN = os.environ.get("GITB_TOKEN", "")
+GITB_TOKEN = os.environ.get("GITB_TOKEN", "")
 GITHUB_REPO = os.environ.get("GITHUB_REPO", "leexuben/TVBOX-merge")
 GITHUB_BRANCH = os.environ.get("GITHUB_BRANCH", "main")
 
 # 打印调试信息
-print(f"[调试] MY_GITHUB_TOKEN 长度: {len(GITB_TOKEN)}")
+print(f"[调试] GITB_TOKEN 长度: {len(GITB_TOKEN)}")
 print(f"[调试] GITHUB_REPO: {GITHUB_REPO}")
 print(f"[调试] GITHUB_BRANCH: {GITHUB_BRANCH}")
 
@@ -182,18 +182,18 @@ def main():
     print(f"[完成] 共 {len(sites)} 个站点，新增 {added_count} 个，已写入 {TARGET_JSON_PATH}")
     
     # 7. 推送到 GitHub
-    if MY_GITHUB_TOKEN and GITHUB_REPO:
+    if GITB_TOKEN and GITHUB_REPO:
         print(f"[推送] 开始推送到 GitHub 仓库: {GITHUB_REPO}")
         with open(TARGET_JSON_PATH, "r", encoding="utf-8") as f:
             content = f.read()
-        ok = push_to_github(TARGET_JSON_PATH, content, GITHUB_REPO, MY_GITHUB_TOKEN, GITHUB_BRANCH)
+        ok = push_to_github(TARGET_JSON_PATH, content, GITHUB_REPO, GITB_TOKEN, GITHUB_BRANCH)
         if ok:
             print("[完成] ✅ 推送成功！")
         else:
             print("[失败] ❌ 推送失败")
     else:
         print(f"[提示] 未配置 GitHub Token 或仓库信息，仅本地生成")
-        print(f"       MY_GITHUB_TOKEN: {'已设置' if MY_GITHUB_TOKEN else '未设置'}")
+        print(f"       GITB_TOKEN: {'已设置' if GITB_TOKEN else '未设置'}")
         print(f"       GITHUB_REPO: {GITHUB_REPO}")
 
 if __name__ == "__main__":
