@@ -1,59 +1,52 @@
-name: Merge TVBox Sites
-
-on:
-  # 定时触发：每天 UTC 0点 和 12点 运行
-  schedule:
-    - cron: '0 0,12 * * *'
-  # 手动触发
-  workflow_dispatch:
-  # 当 push 到 main 分支时也运行
+name: TVBOX-merge  # 工作流名称（可选）
+on:              # 触发条件（示例：push 到 main 分支时触发）
   push:
-分支:
+    branches:
       - main
 
 jobs:
   merge:
-    runs-on: ubuntu-latest
-    
+    runs-on: ubuntu-latest  # 运行环境
+
     steps:
+    # 1. 拉取代码
     - name: Checkout repository
       uses: actions/checkout@v4
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
-        fetch-depth: 0
-    
+        fetch-depth: 0  # 拉取全部历史，方便后续操作分支
+
+    # 2. 安装 Python 环境
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
         python-version: '3.10'
-    
+
+    # 3. 安装依赖
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install requests
-    
+
+    # 4. 运行合并脚本（传必要环境变量）
     - name: Run merge script
       env:
         GITHUB_TOKEN:${{ secrets.GITHUB_TOKEN }}
         GITHUB_REPO: ${{ github.repository }}
         GITHUB_BRANCH:${{ github.ref_name }}
       run: |
-        echo "开始执行合并脚本..."
+        echo "开始执行合并脚本...."
         python merge_sites.py
-    
+
+    # 5. 提交并推送变更（仅当不是 workflow_dispatch 触发时执行）
     - name: Commit and push changes
       if: github.event_name != 'workflow_dispatch'
       run: |
         git config --global user.name "github-actions[bot]"
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
-        
-        # 检查是否有文件变更
-        if git status --porcelain | grep -q "青龙.json"; then
-          echo "检测到 青龙.json 有变更"
-          git add 青龙.json
-          git commit -m "🤖 Auto update sites [$(date +'%Y-%m-%d %H:%M:%S')]"
-          git push
-          echo "已提交并推送变更"
-        else
-          echo "没有文件变更，跳过提交"
-        fi
+        # 检测文件变更 + 提交推送
+        git status --porcelain | grep -q "青龙.json" && \
+        echo "检测到青龙.json 有变更" && \
+        git add 青龙.json && \
+        git commit -m "update 青龙.json" && \
+        git push origin ${{ github.ref_name }}
