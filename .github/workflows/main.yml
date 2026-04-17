@@ -33,7 +33,7 @@ jobs:
       
       - name: 运行合并脚本
         env:
-         MY_GITHUB_TOKEN:${{secrets.GITB_TOKEN }}
+         GITB_TOKEN:${{secrets.GITB_TOKEN }}
          GITHUB_REPO:${{ github.repository }}
          GITHUB_BRANCH:${{ github.ref_name }}
         run: |
