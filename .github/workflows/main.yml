@@ -31,6 +31,6 @@ jobs:
         run: |
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
-          git add redirects.json log.txt
-          git commit -m "更新 redirects.json 和 log.txt" || echo "No changes to commit"
+          git add log.txt
+          git commit -m "更新 log.txt" || echo "No changes to commit"
           git push
