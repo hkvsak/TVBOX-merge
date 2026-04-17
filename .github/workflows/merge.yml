@@ -1,59 +1,47 @@
-name: Merge TVBox Sites
+name: Merge Demo Workflow  # 工作流名称，随意起
 
 on:
-  # 定时触发：每天 UTC 0点 和 12点 运行
-  schedule:
-    - cron: '0 0,12 * * *'
-  # 手动触发
-  workflow_dispatch:
-  # 当 push 到 main 分支时也运行
-  push:
-   branches:
-      - main
+  push:  # 触发条件：代码推送时执行
+    branches: [ main ]  # 只监听 main 分支的推送，可按需改成其他分支
 
 jobs:
-  merge:
-    runs-on: ubuntu-latest
-    
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        fetch-depth: 0
-    
-    - name: Set up Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.10'
-    
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install requests
-    
-    - name: Run merge script
-      env:
-        GITHUB_TOKEN:${{ secrets.GITHUB_TOKEN }}
-        GITHUB_REPO:${{ github.repository }}
-        GITHUB_BRANCH:${{ github.ref_name }}
-      run: |
-        echo "开始执行合并脚本..."
-        python merge_sites.py
-    
-    - name: Commit and push changes
-      if: github.event_name != 'workflow_dispatch'
-      run: |
-        git config --global user.name "github-actions[bot]"
-        git config --global user.email "github-actions[bot]@users.noreply.github.com"
-        
-        # 检查是否有文件变更
-        if git status --porcelain | grep -q "青龙.json"; then
-          echo "检测到 青龙.json 有变更"
-          git add 青龙.json
-          git commit -m "🤖 Auto update sites [$(date +'%Y-%m-%d %H:%M:%S')]"
-          git push
-          echo "已提交并推送变更"
-        else
-          echo "没有文件变更，跳过提交"
-        fi
+  merge-demo:
+    runs-on: ubuntu-latest  # 运行环境，选最新的 Ubuntu 即可
+
+    steps:
+      # 🔹 步骤 1：检出代码（必须！否则后续步骤拿不到代码）
+      - name: Checkout code
+        uses: actions/checkout@v4  # 用最新版 checkout，已适配 Node 24+
+        with:
+          ref: ${{ github.ref }}  # 自动检出当前推送的分支
+
+
+
+      # 🔹 步骤 2：打印仓库/分支信息（验证环境变量）
+      - name: Print repo info
+        run: |
+          echo "当前仓库名：${{ github.repository }}"
+          echo "当前分支名：${{ github.ref_name }}"
+
+
+
+      # 🔹 （可选）步骤 3：如果要合并到其他仓库，用 GitHub API 示例
+      #    注意：需要你在目标仓库有 “写权限”，且 Token 要有 repo 权限
+      - name: Merge to target repo (Demo)
+        if: false  # 先设为 false，防止误触发合并！改成 true 后才会执行
+        env:
+          GITHUB_TOKEN:${{ secrets.GITHUB_TOKEN }}  # 用 GitHub 自带的 Token（需有权限）
+          TARGET_REPO: leexuben/TVBOX-merge  # 换成你要合并到的目标仓库，格式是 owner/repo
+          TARGET_BRANCH: main               # 目标分支
+          SOURCE_BRANCH: ${{ github.ref_name }}  # 源分支（当前推送的分支）
+        run: |
+          # 下面是用 GitHub API 发起合并的示例（需根据你的实际需求调整）
+          curl -X POST \
+            -H "Authorization: token${GITHUB_TOKEN}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/${TARGET_REPO}/merges \
+            -d '{
+              "base": "${TARGET_BRANCH}",
+              "head": "${SOURCE_BRANCH}",
+              "commit_message": "Auto merge from${{ github.repository }}#${{ github.sha }}"
+            }'
