@@ -9,8 +9,8 @@ import requests
 # ======================
 # 配置（全部走环境变量，带默认值）
 # ======================
-SOURCES_JSON_PATH = os.environ.get("SOURCES_JSON_PATH", "sources.json")
-TARGET_JSON_PATH = os.environ.get("TARGET_JSON_PATH", "TV.json")
+SOURCES_JSON_PATH = os.environ.get("SOURCES_JSON_PATH", "source.json")
+TARGET_JSON_PATH = os.environ.get("TARGET_JSON_PATH", "FuLi.json")
 
 MY_GITHUB_TOKEN = os.environ.get("MY_GITHUB_TOKEN", "")
 GITHUB_REPO = os.environ.get("GITHUB_REPO", "leexuben/TVBOX-merge")
@@ -86,9 +86,9 @@ def main():
         sys.exit(1)
 
     with open(SOURCES_JSON_PATH, "r", encoding="utf-8") as f:
-        sources = json.load(f)
+        source = json.load(f)
 
-    print(f"[读取] 加载了 {len(sources)} 个源")
+    print(f"[读取] 加载了 {len(source)} 个源")
 
     # ---------- 读取目标文件 ----------
     if os.path.exists(TARGET_JSON_PATH):
@@ -109,28 +109,28 @@ def main():
         lives = []
         existing_fields = {}
 
-    site_keys = {s.get("key") for s in sites if s.get("key")}
+    site_keys = {.get("key") for  in sites if .get("key")}
     live_names = {l.get("name") for l in lives if l.get("name")}
 
     # ---------- 合并 ----------
     added_sites = 0
     added_lives = 0
 
-    for i, src in enumerate(sources, 1):
+    for i, src in enumerate(source, 1):
         url = src.get("url")
         base = src.get("base", "")
         if not url:
             continue
 
-        print(f"[{i}/{len(sources)}] 处理: {url}")
+        print(f"[{i}/{len(source)}] 处理: {url}")
 
         data = get_data_from_url(url)
 
         # 合并 sites
-        for s in data.get("sites", []):
-            key = s.get("key")
+        for  in data.get("sites", []):
+            key = .get("key")
             if key and key not in site_keys:
-                sites.append(fix_item_paths(s, base))
+                sites.append(fix_item_paths(, base))
                 site_keys.add(key)
                 added_sites += 1
 
