@@ -3916,6 +3916,20 @@
       "quickSearch": 1,
       "filterable": 1,
       "ext": "https://www.airfun.fun/xgapp.php/v2/"
+    },
+    {
+      "key": "驿站",
+      "name": "🌅 标清1",
+      "type": 3,
+      "api": "csp_AppGet",
+      "ext": "https://niuhulu.oss-cn-hangzhou.aliyuncs.com/niuniu.txt|uxxDgHxsdoSgVGZZ|V122|okhttp/3.10.0"
+    },
+    {
+      "key": "新首发",
+      "name": "👻 标清3",
+      "type": 3,
+      "api": "csp_AppGet",
+      "ext": "https://yun-1316442804.cos.ap-guangzhou.myqcloud.com/600.txt|FTgP4Gq8zPiqbt7M|V122|okhttp/3.10.0"
     }
   ],
   "lives": [
@@ -4006,6 +4020,11 @@
       "timeout": 20,
       "epg": "https://epg.112114.xyz/?ch={name}&date={date}",
       "logo": "https://epg.112114.xyz/logo/{name}.png"
+    },
+    {
+      "name": "📺 平台直播",
+      "type": 0,
+      "ua": "okhttp/3.15"
     }
   ],
   "key": "newValue"
