@@ -3957,6 +3957,98 @@
         "init": "initV122",
         "ua": "okhttp/3.10.0"
       }
+    },
+    {
+      "key": "freeok",
+      "name": "🎡小米｜FREE",
+      "type": 3,
+      "timeout": 15,
+      "api": "csp_FreeOk",
+      "jar": "https://img2.gelonghui.com/library/755ee-d3dbe41a-8c4e-46bd-987c-a0d625cac773.png;md5;755ee94255ccac2ea2307fe7f368d4ed",
+      "ext": "https://www.jqqzx.top/"
+    },
+    {
+      "key": "追忆",
+      "name": "📜小米｜追忆",
+      "type": 3,
+      "timeout": 15,
+      "api": "csp_AppNox",
+      "jar": "https://img2.gelonghui.com/library/755ee-d3dbe41a-8c4e-46bd-987c-a0d625cac773.png;md5;755ee94255ccac2ea2307fe7f368d4ed",
+      "ext": "WQvB2Qw4Lp6LvWZcoDzAgWcdOv1mVLeY0zsSUm7bMIsicAsgOHNIjC8Yu9jjcHqnMDGY+94VxdIFzQm2fN7mCdhyQreUnNyGkNwiluieESzk83LDnj0Nwx0dwt1VZDTzYrWoXL55vf7YY1yjMID/C5SZN8uNA08bwHQzDwY8xEtGACOAb6Z/0z9n1NN1qApbyxoouOKKEsekOhSlAhE+czjC+tU+78MSRpA3l+n2+gA="
+    },
+    {
+      "key": "csp_XBPQ",
+      "name": "📦米口｜测试",
+      "type": 3,
+      "api": "csp_XBPQ",
+      "timeout": 12,
+      "jar": "https://img2.gelonghui.com/library/1fdce-37f3cc0f-eca7-4efa-ad79-b86d68bde3b5.jpg;md5;1fdce64a3b67359e8f6f9ea64a3326f5",
+      "ext": "{\"模板\":\"https://gitee.com/smallmi1007/mimi/raw/master/nox.json\",\"域名-c\":\"http://111.170.7.114:8081\",\"xas\":\"3D:D7:7B:07:B0:81:49:AF:90:5E:39:2B:B8:59:A9:99:89:EB:D5:35:6E:06:C0:A4:BE:44:B6:16:43:33:C4:C3\",\"xavn\":\"0.1.5\",\"xap\":\"com.muyuesg.app\",\"xavc\":\"15\"}"
+    },
+    {
+      "key": "csp_XBPQ2",
+      "name": "📦独家｜测试",
+      "type": 3,
+      "api": "csp_XBPQ",
+      "timeout": 12,
+      "jar": "https://img2.gelonghui.com/library/1fdce-37f3cc0f-eca7-4efa-ad79-b86d68bde3b5.jpg;md5;1fdce64a3b67359e8f6f9ea64a3326f5",
+      "ext": "{\"模板\":\"https://gitee.com/smallmi1007/mimi/raw/master/nox.json\",\"域名-c\":\"https://xdsj.xywla.com\",\"xas\":\"7D:69:AF:92:9A:9F:A6:88:65:07:B2:DB:50:FC:CD:DD:2D:C2:9A:E4:01:9C:ED:56:12:2C:50:6D:E3:CD:38:F6\",\"xavn\":\"1.0.6\",\"xap\":\"com.xiaodoshijie.app\",\"xavc\":\"16\"}"
+    },
+    {
+      "key": "爱影视",
+      "name": "🏞️爱影｜1080P",
+      "type": 3,
+      "timeout": 15,
+      "api": "csp_AppGet",
+      "jar": "https://img2.gelonghui.com/library/755ee-d3dbe41a-8c4e-46bd-987c-a0d625cac773.png;md5;755ee94255ccac2ea2307fe7f368d4ed",
+      "ext": "https://aysappto.oss-cn-chengdu.aliyuncs.com/q19.txt|fff32466kkfff616|122"
+    },
+    {
+      "key": "段友",
+      "name": "♨️段友｜1080P",
+      "type": 3,
+      "searchable": 1,
+      "changeable": 1,
+      "api": "csp_AppGet",
+      "jar": "https://img2.gelonghui.com/library/755ee-d3dbe41a-8c4e-46bd-987c-a0d625cac773.png;md5;755ee94255ccac2ea2307fe7f368d4ed",
+      "ext": "https://shangjihuoke.com|8E2DC386FD452D05"
+    },
+    {
+      "key": "暮气",
+      "name": "♨️星河｜1080P",
+      "type": 3,
+      "searchable": 1,
+      "changeable": 1,
+      "api": "csp_AppGet",
+      "jar": "https://img2.gelonghui.com/library/755ee-d3dbe41a-8c4e-46bd-987c-a0d625cac773.png;md5;755ee94255ccac2ea2307fe7f368d4ed",
+      "ext": "https://daen-1256234123.cos.ap-shanghai.myqcloud.com/MuQi/mqxhqj.txt|kj37zs29q22jk96t|122"
+    },
+    {
+      "key": "仓鼠APP",
+      "name": "🐭仓鼠｜1080P",
+      "type": 3,
+      "timeout": 15,
+      "api": "csp_AppGet",
+      "jar": "https://img2.gelonghui.com/library/755ee-d3dbe41a-8c4e-46bd-987c-a0d625cac773.png;md5;755ee94255ccac2ea2307fe7f368d4ed",
+      "ext": "https://cs450appcms.cs4k.top|cD7wZ7iY6qN3sU1z"
+    },
+    {
+      "key": "金牌影院GET",
+      "name": "🥇金牌｜1080P",
+      "type": 3,
+      "timeout": 15,
+      "jar": "https://img2.gelonghui.com/library/755ee-d3dbe41a-8c4e-46bd-987c-a0d625cac773.png;md5;755ee94255ccac2ea2307fe7f368d4ed",
+      "api": "csp_AppGet",
+      "ext": "https://qj3.ggtvb.cc|eecbio48dsq13kkk|122"
+    },
+    {
+      "key": "橘子Get",
+      "name": "🍊橘子｜1080P",
+      "type": 3,
+      "timeout": 15,
+      "api": "csp_AppGet",
+      "jar": "https://img2.gelonghui.com/library/755ee-d3dbe41a-8c4e-46bd-987c-a0d625cac773.png;md5;755ee94255ccac2ea2307fe7f368d4ed",
+      "ext": "https://juziapp-1319209748.cos.ap-chengdu.myqcloud.com/juzi.txt|jasaFBcdV3zrUDf2|122"
     }
   ],
   "lives": [
